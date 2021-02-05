@@ -10,6 +10,32 @@
             header("Location: dashboard/template.php?id=".$result);
         }
     }
+    
+    if(isset($_POST['goto2'])){
+        $domain = strtolower(preg_replace("/[^a-zA-Z]+/", "", $_POST['officedomain']));
+        $result = checkDomain($conn,$domain);
+        if($result == 0){
+            $_SESSION['gsDomain'] = $domain;
+            header("Location: get-started.php?step=2");
+        } else {
+            $err = "Sorry the name ".$domain.".eoffice.ng is already taken!";
+        }
+    }
+    
+    if(isset($_SESSION['gsDomain'], $_GET['step'], $_GET['plan']) && $_GET['step']==2 && $_GET['plan'] !== ""){
+        if($_GET['plan'] == "office"){
+            $_SESSION['gsPlan'] = "Virtual Office";
+            header("Location: ?step=3");
+        } else if($_GET['plan'] == "shop"){
+            $_SESSION['gsPlan'] = "Virtual Shop";
+            header("Location: ?step=3");
+        }
+    }
+    
+    if(isset($_SESSION['gsDomain'], $_SESSION['gsPlan'], $_GET['step'], $_GET['theme']) && $_GET['step']==3 && $_GET['theme'] !== ""){
+        $_SESSION['gsTheme'] = $_GET['theme'];
+        header("Location: ?step=4");
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,22 +61,24 @@
                 <?php if(!isset($_SESSION['gsDomain'])){ ?>
                     <div id="chooseDomain">
                         <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1"><strong>Let's get started!</strong></h1>
-                        <p class="mbr-text mbr-fonts-style display-5"> Choose an your eOffice address </p>
-                        <div align="center">
-                            <div style="width:100%; max-width:600px!important">
-                                <div class="input-group mb-3">
-                                    <input type="text" name="officedomain" class="form-control" placeholder="yourofficename" id="officedomain" aria-describedby="basic-addon1">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon1">.eoffice.ng</span>
+                        <p class="mbr-text mbr-fonts-style display-5"> Choose an eOffice address </p>
+                        <form method="post" action="">
+                            <div align="center">
+                                <div style="width:100%; max-width:600px!important">
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="officedomain" class="form-control" placeholder="yourofficename" id="officedomain" aria-describedby="basic-addon1">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon1">.eoffice.ng</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div style="padding:10px; color:red" id="domainError"></div>
-                            </div> 
-                        </div>
-                        <div class="mbr-section-btn mt-3">
-                            <button type="submit" name="goto2" class="btn btn-primary display-4" id="gsBtn">Continue &nbsp;<i class="fas fa-arrow-circle-right"></i> </button>
-                            <button type="submit" name="goto2" class="btn btn-primary display-4" id="gsLoading" style="display:none"><i class="fas fa-spinner fa-spin"></i>&nbsp; Validating... </button>
-                        </div>
+                                    <div style="padding:10px; color:red" id="domainError"></div>
+                                </div> 
+                            </div>
+                            <div class="mbr-section-btn mt-3">
+                                <button type="submit" style="display:inline-block" name="goto2" class="btn btn-primary display-4" id="gsBtn0">Continue &nbsp;<i class="fas fa-arrow-circle-right"></i> </button>
+                                <!--<button type="submit" name="goto2" class="btn btn-primary display-4" id="gsLoading" style="display:none"><i class="fas fa-spinner fa-spin"></i>&nbsp; Validating... </button>-->
+                            </div>
+                        </form>
                     </div>
                 <?php } else if(isset($_SESSION['gsDomain']) && !isset($_SESSION['gsPlan'])){ ?>
                     <div align="center">
@@ -63,8 +91,8 @@
                                 <div class="eo-box-t p10">
                                     <div style="border-bottom:#333 thin solid; padding-bottom:20px; margin-bottom:20px">
                                         <h3> Virtual Office </h3>
-                                        <h1> <b> N1,000 </b> </h1>
-                                        <h4 style="color:#070"> <b> First 30 days free! </b> </h4>
+                                        <h1> <b> N1,000<span style="font-size:24px">/Year</span> </b> </h1>
+                                        <h4 style="color:#070; font-size:14px"> <b> First 30 days free! </b> </h4>
                                     </div>
                                     <div align="left" style="padding:10px">
                                         <i class="fas fa-caret-right"></i> eOffice Address (youraddress.eoffice.ng) <br />
@@ -75,8 +103,9 @@
                                         <i class="fas fa-caret-right"></i> Direct WhatsApp chat
                                     </div>
                                     <div style="padding:10px">
-                                        <button class="btn btn-primary display-4" onclick="setPlan('Virtual Office')">Select Plan &nbsp;<i class="fas fa-arrow-circle-right"></i> </button>
-                                        <p> <br> <a href="<?php echo $siteURL.'/mwah'; ?>" target="_blank"> See Sample </a> </p>
+                                        <!--<button class="btn btn-primary display-4" onclick="setPlan('Virtual Office')">Select Plan &nbsp;<i class="fas fa-arrow-circle-right"></i> </button>-->
+                                        <a href="?step=2&plan=office" class="btn btn-primary display-4">Select Plan &nbsp;<i class="fas fa-arrow-circle-right"></i> </a>
+                                        <p> <br> <a href="<?php echo $siteURL.'/dobemutilities'; ?>" target="_blank"> See Sample </a> </p>
                                     </div>
                                 </div>
                             </div>
@@ -85,8 +114,8 @@
                                 <div class="eo-box-t p10">
                                     <div style="border-bottom:#333 thin solid; padding-bottom:20px; margin-bottom:20px">
                                         <h3> Virtual Shop </h3>
-                                        <h1> <b> N5,000 </b> </h1>
-                                        <h4 style="color:#070"> <b> First 30 days free! </b> </h4>
+                                        <h1> <b> N5,000<span style="font-size:24px">/Year</span> </b> </h1>
+                                        <h4 style="color:#070; font-size:14px"> <b> First 30 days free! </b> </h4>
                                     </div>
                                     <div align="left" style="padding:10px">
                                         <i class="fas fa-caret-right"></i> eOffice Address (youraddress.eoffice.ng) <br />
@@ -97,7 +126,8 @@
                                         <i class="fas fa-caret-right"></i> Direct WhatsApp chat
                                     </div>
                                     <div style="padding:10px">
-                                        <button class="btn btn-primary display-4"  onclick="setPlan('Virtual Shop')">Select Plan &nbsp;<i class="fas fa-arrow-circle-right"></i> </button>
+                                        <!--<button class="btn btn-primary display-4"  onclick="setPlan('Virtual Shop')">Select Plan &nbsp;<i class="fas fa-arrow-circle-right"></i> </button>-->
+                                        <a href="?step=2&plan=shop" class="btn btn-primary display-4">Select Plan &nbsp;<i class="fas fa-arrow-circle-right"></i> </a>
                                         <p> <br> <a href="<?php echo $siteURL.'/tiptopfoodhub'; ?>" target="_blank"> See Sample </a> </p>
                                     </div>
                                 </div>
@@ -117,7 +147,10 @@
                                         <img src="<?php echo $siteURL."/templates/".$theme['themeDir']."/screenshots/video.gif"; ?>" style="width:100% !important; border:#333 thin solid" />
                                         <div class="p10" align="center">
                                             <b> <?php echo strtoupper($theme['themeName']); ?> (<a href="templates/<?php echo $theme['themeDir']; ?>" target="_blank">Preview</a>) </b>
-                                            <p> <button class="btn btn-primary display-4" onclick="setTheme('<?php echo $theme['themeID'] ?>')">Select Theme &nbsp;<i class="fas fa-arrow-circle-right"></i> </button> </p>
+                                            <p> 
+                                                <!--<button class="btn btn-primary display-4" onclick="setTheme('<?php echo $theme['themeID'] ?>')">Select Theme &nbsp;<i class="fas fa-arrow-circle-right"></i> </button> -->
+                                                <a href="?step=3&theme=<?php echo $theme['themeID'] ?>" class="btn btn-primary display-4">Select Theme &nbsp;<i class="fas fa-arrow-circle-right"></i> </a> 
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -219,21 +252,25 @@
 
     <?php include 'includes/footer.php'; ?>
     
-    <script src="assets/web/assets/jquery/jquery.min.js"></script>
+    <!--<script src="assets/web/assets/jquery/jquery.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="engine/js/script.js"></script>
     
     <script>
         
-        $("#officedomain").keyup(function(){
-            var eodomain = $("#officedomain").val();
-            var newString = eodomain.replace(/[^-A-Z0-9]+/ig, "");
-            newString = newString.toLowerCase();
-            $("#officedomain").val(newString);
-        });
+        // $("#officedomain").keyup(function(){
+        //     var eodomain = $("#officedomain").val();
+        //     var newString = eodomain.replace(/[^-A-Z0-9]+/ig, "");
+        //     newString = newString.toLowerCase();
+        //     $("#officedomain").val(newString);
+        // });
 
         $("#gsBtn").click(function(){
             console.log("done!");
-            checkDomain($("#officedomain").val());
+            var eodomain = $("#officedomain").val();
+            var newString = eodomain.replace(/[^-A-Z0-9]+/ig, "");
+            newString = newString.toLowerCase();
+            checkDomain(newString);
         });
 
         $("#eoDesc").keyup(function(){

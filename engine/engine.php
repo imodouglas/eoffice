@@ -1,5 +1,5 @@
 <?php
-  $siteURL = "http://localhost/eoffice";
+  $siteURL = "https://eoffice.ng";
 
   function login($conn,$uname,$pword){
     $signinq = $conn->prepare("SELECT * FROM users WHERE (uname = ? OR email = ?) and pword = ?");
@@ -905,7 +905,7 @@
     $result = "http://".$data;
     return $result;
   }
-
+  
   function cleanVURL($url){
     $data = explode("watch?v=", $url);
     $data = implode("embed/", $data);

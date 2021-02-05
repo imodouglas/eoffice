@@ -1,7 +1,20 @@
 <?php 
-    session_start();
+    include 'engine/conn.php';
+    include 'engine/engine.php';
+    
     if(isset($_GET['ref'])){
         $_SESSION['eo_refID'] = $_GET['ref'];
+    }
+    
+    if(isset($_POST['goto2'])){
+        $domain = strtolower(preg_replace("/[^a-zA-Z]+/", "", $_POST['officedomain']));
+        $result = checkDomain($conn,$domain);
+        if($result == 0){
+            $_SESSION['gsDomain'] = $domain;
+            header("Location: get-started.php?step=2");
+        } else {
+            $err = "Sorry the name ".$domain.".eoffice.ng is already taken!";
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -28,7 +41,8 @@
                 <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1"><strong>eOffice Nigeria</strong></h1>
                 <p class="mbr-text mbr-fonts-style display-5">
                     Setup your business website in minutes!</p>
-                    <div align="center">
+                    <form method="post" action="">
+                        <div align="center">
                             <div style="width:100%; max-width:600px!important">
                                 <div class="input-group mb-3">
                                     <input type="text" name="officedomain" class="form-control" placeholder="yourofficename" id="officedomain" aria-describedby="basic-addon1">
@@ -36,13 +50,14 @@
                                         <span class="input-group-text" id="basic-addon1">.eoffice.ng</span>
                                     </div>
                                 </div>
-                                <div style="color:red" id="domainError"></div>
+                                <div style="color:red" id="domainError"><?php if(isset($err)){ echo $err; } ?></div>
                             </div> 
                         </div>
-                        <div class="mbr-section-btn mt-3">
-                            <button type="submit" name="goto2" class="btn btn-primary display-4" id="gsBtn">Continue &nbsp;<i class="fas fa-arrow-circle-right"></i> </button>
-                            <button type="submit" name="goto2" class="btn btn-primary display-4" id="gsLoading" style="display:none"><i class="fas fa-spinner fa-spin"></i>&nbsp; Validating... </button>
+                        <div class="mbr-section-btn mt-3" align="center" style="width:100%">
+                            <button type="submit" name="goto2" style="display:inline-block" class="btn btn-primary display-4" id="gsBtn0">Continue &nbsp;<i class="fas fa-arrow-circle-right"></i> </button>
+                            <!--<button type="submit" name="goto2" class="btn btn-primary display-4" id="gsLoading" style="display:none"><i class="fas fa-spinner fa-spin"></i>&nbsp; Validating... </button>-->
                         </div>
+                    </form>
                 <div class="image-wrap mt-4">
                     <img src="assets/images/eoffice-home-1200x869.jpg" alt="eOffice Home Image" title="">
                 </div>
@@ -186,16 +201,19 @@
     ?>
 
     <script>
-        $("#officedomain").keyup(function(){
-            var eodomain = $("#officedomain").val();
-            var newString = eodomain.replace(/[^-A-Z0-9]+/ig, "");
-            newString = newString.toLowerCase();
-            $("#officedomain").val(newString);
-        });
+        // $("#officedomain").keyup(function(){
+        //     var eodomain = $("#officedomain").val();
+        //     var newString = eodomain.replace(/[^-A-Z0-9]+/ig, "");
+        //     newString = newString.toLowerCase();
+        //     $("#officedomain").val(newString);
+        // });
 
         $("#gsBtn").click(function(){
             console.log("done!");
-            checkDomain($("#officedomain").val());
+            var eodomain = $("#officedomain").val();
+            var newString = eodomain.replace(/[^-A-Z0-9]+/ig, "");
+            newString = newString.toLowerCase();
+            checkDomain(newString);
         });
     </script> 
   
