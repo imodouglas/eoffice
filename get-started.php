@@ -36,6 +36,26 @@
         $_SESSION['gsTheme'] = $_GET['theme'];
         header("Location: ?step=4");
     }
+
+    if(isset($_GET['fname'],$_GET['uname'],$_GET['email'],$_GET['pword1'],$_GET['pword2'])){
+        $result = createAccount($conn,$_GET['fname'],$_GET['uname'],$_GET['email'],$_GET['pword1'],$_GET['pword2']);
+        if($result == 1){ 
+            $msg1 = "Hello ".$_GET['fname']."! \r\nYour eoffice account has been created successfully. Feel free to login and edit your account to edit your eoffice. \r\n\r\nRegards!\r\neOffice Team!";
+            $msg2 = "A new eOffice account has been created. \r\n\r\nRegards!\r\neOffice Team!";
+            mail($_GET['email'], "Welcome to eOffice NG!", $msg1, "FROM: no-reply@eoffice.ng");
+            mail("info@easywebsite.com.ng", "New eOffice NG account created!", $msg2, "FROM: info@eoffice.ng");
+            header("Location: ?step=5");
+        } else {
+            $suError = "There was a problem, either username or password already exist!";
+        }
+    }
+
+    if(isset($_POST['uname'],$_POST['pword'])){
+        $result = login($conn,$_POST['uname'],$_POST['pword']);
+        header("Location: ?step=5");
+    } else {
+        $lgError = "Username or password does not exist!";
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -164,9 +184,9 @@
                         <p> <a href="#" onclick="changeTheme()"> <i class="fas fa-arrow-circle-left"></i> Change Theme  </a> </p>
                         <div class="row" style="background:none; margin-top:40px" align="left">
                             <div class="col-sm-6 p20 eo-divider">
-                                <form method="post" action="" id="loginForm">
+                                <form method="post" action="">
                                     <p> <b>Login To Your Account </b> </p>
-                                    <div style="color:red" id="loginError"></div>
+                                    <div style="color:red" id="loginError"><?php if(isset($lgError)){ echo $lgError; } ?></div>
                                     <p>
                                         <label> Username or Email </label>
                                         <input type="text" name="uname" class="form-control" required />
@@ -181,9 +201,9 @@
                                 </form>
                             </div>
                             <div class="col-sm-6 p20">
-                                <form method="post" action="" id="signupForm">
+                                <form method="post" action="">
                                     <p> <b>Create An Account </b> </p>
-                                    <div style="color:red" id="signupError"></div>
+                                    <div style="color:red" id="signupError"><?php if(isset($suError)){ echo $suError; } ?></div>
                                     <div style="color:red" id="unError"></div>
                                     <div style="color:red" id="emError"></div>
                                     <div style="color:red" id="pwError2"></div>
@@ -223,7 +243,8 @@
                         <div class="row" style="background:none;" align="center">
                             <div class="col-sm-2"></div>
                             <div class="col-sm-8 p20">
-                                <form method="post" action="" id="abouteoForm">
+                                <!-- <form method="post" action="" id="abouteoForm"> -->
+                                <form method="post" action="">
                                     <p> <b>You're almost there! </b> </p>
                                     <div style="color:red" id="loginError"></div>
                                     <p>
