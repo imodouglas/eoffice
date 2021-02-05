@@ -54,7 +54,7 @@
         $result = login($conn,$_POST['uname'],$_POST['pword']);
         header("Location: ?step=5");
     } else {
-        $lgError = "Username or password does not exist!";
+        $lgError = "Username or password does not exist!"; 
     }
 ?>
 <!DOCTYPE html>
