@@ -1,0 +1,17 @@
+<script src="<?php echo $siteData['siteURL']."/"; ?>assets/web/assets/jquery/jquery.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/popper/popper.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/tether/tether.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/smoothscroll/smooth-scroll.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/dropdown/js/nav-dropdown.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/dropdown/js/navbar-dropdown.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/touchswipe/jquery.touch-swipe.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/parallax/jarallax.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/masonry/masonry.pkgd.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/bootstrapcarouselswipe/bootstrap-carousel-swipe.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/vimeoplayer/jquery.mb.vimeo_player.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/theme/js/script.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/gallery/player.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/gallery/script.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/slidervideo/script.js"></script>

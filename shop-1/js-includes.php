@@ -1,0 +1,11 @@
+<!--<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>-->
+<script src="<?php echo $siteData['siteURL']."/"; ?>assets/web/assets/jquery/jquery.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/popper/popper.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/tether/tether.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/smoothscroll/smooth-scroll.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/dropdown/js/nav-dropdown.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/dropdown/js/navbar-dropdown.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/touchswipe/jquery.touch-swipe.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/parallax/jarallax.min.js"></script>
+  <script src="<?php echo $siteData['siteURL']."/"; ?>assets/theme/js/script.js"></script>

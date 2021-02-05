@@ -1,0 +1,18 @@
+@media screen and (min-width: 575px){
+    .show-sm{
+        display: none;
+    }
+}
+@media screen and (max-width: 575px){
+    .show-lg{
+        display: none;
+    }
+}
+
+.eo-label{
+    padding:2px 5px;
+    color: #333;
+    border: #333 thin solid;
+    margin-right: 10px;
+    float:left;
+}
