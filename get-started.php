@@ -37,12 +37,18 @@
         header("Location: ?step=4");
     }
 
-    if(isset($_GET['fname'],$_GET['uname'],$_GET['email'],$_GET['pword1'],$_GET['pword2'])){
-        $result = createAccount($conn,$_GET['fname'],$_GET['uname'],$_GET['email'],$_GET['pword1'],$_GET['pword2']);
+    if(isset($_POST['fname'],$_POST['uname'],$_POST['email'],$_POST['pword1'],$_POST['pword2'])){
+        $result = createAccount($conn,$_POST['fname'],$_POST['uname'],$_POST['email'],$_POST['pword1'],$_POST['pword2']);
         if($result == 1){ 
-            $msg1 = "Hello ".$_GET['fname']."! \r\nYour eoffice account has been created successfully. Feel free to login and edit your account to edit your eoffice. \r\n\r\nRegards!\r\neOffice Team!";
+            $msg1 = "<html><body><p> <img src='https://eoffice.ng/assets/images/eoffice-welcome.jpg' style='width:100%' /> </p> <p>Hello ".$_POST['fname']."! </p><p>Your eoffice account has been created successfully. Feel free to login and edit your account to edit your eoffice. </p> <p> To edit your eoffice at any time, click the button below. </p> <p align='center'> <a href='https://eoffice.ng/dashboard' style='padding:10px; color:#000; background:#070; box-shadow:#ccc 1px 1px 1px'>eoffice.ng/dahboard</a> </p>  <p>Regards!<br>eOffice Team!</p> </body></html>";
+            
             $msg2 = "A new eOffice account has been created. \r\n\r\nRegards!\r\neOffice Team!";
-            mail($_GET['email'], "Welcome to eOffice NG!", $msg1, "FROM: no-reply@eoffice.ng");
+            
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= 'From: <no-reply@eoffice.ng>' . "\r\n";
+
+            mail($_POST['email'], "Welcome to eOffice NG!", $msg1, $headers);
             mail("info@easywebsite.com.ng", "New eOffice NG account created!", $msg2, "FROM: info@eoffice.ng");
             header("Location: ?step=5");
         } else {
@@ -52,9 +58,11 @@
 
     if(isset($_POST['uname'],$_POST['pword'])){
         $result = login($conn,$_POST['uname'],$_POST['pword']);
-        header("Location: ?step=5");
-    } else {
-        $lgError = "Username or password does not exist!"; 
+        if($result > 0){
+            header("Location: ?step=5");
+        } else {
+            $lgError = "Username or password does not exist!"; 
+        }
     }
 ?>
 <!DOCTYPE html>
