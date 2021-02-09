@@ -1,6 +1,6 @@
-var siteURL = "http://localhost/eoffice";
+var siteURL = "https://eoffice.ng";
 
-$(document).ready(function(){
+$(window).on("load",function(){
     $("#pageLoading").fadeOut("fast");
 });
 
@@ -83,11 +83,11 @@ function showLoading(){
 }
 
 function doPublish(x){
-    // showLoading(); 
+    // showLoading();
     $.get(siteURL+"/engine/data.php?get=sitedata&eoid="+x, function(data){
         $("#publishInfo").slideToggle("fast");
         if(data.officeType == "Virtual Office"){ var amount = 1000; } else if(data.officeType == "Virtual Shop"){ var amount = 5000; }
-        var pubData = "<p> <b> You are about to subscribe for a year suscription of "+data.officeType+" <br> ("+data.officeName+")</b> </p>";
+        var pubData = "<span style='float:right; padding:2px 5px; background:#333; color:#fff' onclick='closePublish()'> <i class='fas fa-times'></i> </span> <p> <b> You are about to subscribe for a year suscription of "+data.officeType+" <br> ("+data.officeName+")</b> </p>";
         pubData += "<p> You'll have to pay a total amount of N"+number_format(amount)+"</p>";
         pubData += "<a href='#' class='btn btn-primary' style='padding:3px 10px' onclick='makePayment("+data.officeID+","+amount+")'> Pay Now </a>";
         $("#pubData").html(pubData);
@@ -129,4 +129,8 @@ function makePayment(a,b){
             });
         });
     });
+}
+
+function closePublish(){
+    $("#publishInfo").slideToggle("fast");
 }
