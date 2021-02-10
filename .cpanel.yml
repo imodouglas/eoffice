@@ -2,3 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/thesweet/eoffice.ng/
+    – /bin/cp -r * $DEPLOYPATH
